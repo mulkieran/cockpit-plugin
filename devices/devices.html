@@ -1,0 +1,53 @@
+<head>
+    <title>Devices</title>
+    <meta charset="utf-8">
+    <link href="../base1/cockpit.css" type="text/css" rel="stylesheet">
+    <script src="../base1/jquery.js"></script>
+    <script src="../base1/cockpit.js"></script>
+</head>
+<body>
+    <div class="container-fluid" style='max-width: 400px'>
+        <table class="cockpit-form-table">
+            <tr>
+                <td><button class="btn btn-default btn-primary" id="show">Show Enclosures</button></td>
+		        <td><span id="result"></span></td>
+            </tr>
+        </table>
+        <p>
+	    <pre id="output"></pre>
+        </p>
+    </div>
+
+    <script>
+        var address = $("#address");
+        var output = $("#output");
+        var result = $("#result");
+
+        $("#show").on("click", show_run);
+
+        function show_run() {
+            var proc = cockpit.spawn(["echo", "show"])
+            proc.done(show_success);
+            proc.stream(show_output);
+            proc.fail(show_fail);
+
+            result.empty();
+            output.empty();
+        }
+
+        function show_success() {
+            result.css("color", "green");
+            result.text("success");
+        }
+
+        function show_fail() {
+            status.css("color", "red");
+            status.text("fail");
+        }
+
+        function show_output(data) {
+            output.append(document.createTextNode(data));
+        }
+    </script>
+</body>
+</html>
