@@ -13,9 +13,8 @@
 		        <td><span id="result"></span></td>
             </tr>
         </table>
-        <p>
-	    <pre id="output"></pre>
-        </p>
+        <br></br>
+	    <div id="output"></div>
     </div>
 
     <script>
@@ -28,16 +27,16 @@
         function show_run() {
             var proc = cockpit.spawn(["echo", "show"])
             proc.done(show_success);
-            proc.stream(show_output);
             proc.fail(show_fail);
 
             result.empty();
             output.empty();
         }
 
-        function show_success() {
+        function show_success(data) {
             result.css("color", "green");
             result.text("success");
+            output.append(data);
         }
 
         function show_fail() {
@@ -45,9 +44,6 @@
             status.text("fail");
         }
 
-        function show_output(data) {
-            output.append(document.createTextNode(data));
-        }
     </script>
 </body>
 </html>
